@@ -6,19 +6,23 @@ import android.widget.Button
 import android.widget.EditText
 import com.example.apporgsalura.R
 import com.example.apporgsalura.dao.ProdutoDao
+import com.example.apporgsalura.databinding.ActivityFormularioProdutoBinding
 import com.example.apporgsalura.model.Produto
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityFormularioProdutoBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_formulario_produto)
+        setContentView(binding.root)
 
         configuraBotaoSalvar()
     }
 
     private fun configuraBotaoSalvar() {
-        val botaoSalvar = findViewById<Button>(R.id.button)
+        val botaoSalvar = binding.button
         val dao = ProdutoDao()
         botaoSalvar.setOnClickListener {
             val produtoNovo = criaProduto()
@@ -28,11 +32,11 @@ class FormularioProdutoActivity : AppCompatActivity() {
     }
 
     private fun criaProduto(): Produto {
-        val campoNome = findViewById<EditText>(R.id.etNome)
+        val campoNome = binding.etNome
         val nome = campoNome.text.toString()
-        val campoDescricao = findViewById<EditText>(R.id.etDescricao)
+        val campoDescricao = binding.etDescricao
         val descricao = campoDescricao.text.toString()
-        val campoValor = findViewById<EditText>(R.id.etValor)
+        val campoValor = binding.etValor
         val valorEmTexto = campoValor.text.toString()
         val valor = if (valorEmTexto.isBlank()) {
             BigDecimal.ZERO

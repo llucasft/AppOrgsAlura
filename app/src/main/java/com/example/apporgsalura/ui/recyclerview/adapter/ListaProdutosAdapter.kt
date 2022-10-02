@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apporgsalura.R
+import com.example.apporgsalura.databinding.ActivityListaProdutosBinding
+import com.example.apporgsalura.databinding.ItemListaBinding
 import com.example.apporgsalura.model.Produto
 
 class ListaProdutosAdapter(
@@ -16,21 +18,24 @@ class ListaProdutosAdapter(
 
     private val produtos = produtos.toMutableList()
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(binding: ItemListaBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private val nome = binding.tvNome
+        private val descricao = binding.tvDescricao
+        private val valor = binding.tvValor
+
         fun vincula(produto: Produto) {
-            val nome = itemView.findViewById<TextView>(R.id.tvNome)
             nome.text = produto.nome
-            val descricao = itemView.findViewById<TextView>(R.id.tvDescricao)
             descricao.text = produto.descricao
-            val valor = itemView.findViewById<TextView>(R.id.tvValor)
             valor.text = produto.valor.toPlainString()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.item_lista, parent, false)
-        return ViewHolder(view)
+        val binding = ItemListaBinding.inflate(LayoutInflater.from(context),
+        parent,
+        false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
