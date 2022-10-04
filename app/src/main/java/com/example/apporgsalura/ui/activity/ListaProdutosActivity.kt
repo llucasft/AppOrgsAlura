@@ -2,6 +2,7 @@ package com.example.apporgsalura.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apporgsalura.R
@@ -21,6 +22,7 @@ class ListaProdutosActivity : AppCompatActivity() {
         setContentView(binding.root)
         configuraRecyclerView()
         configuraFAB()
+
     }
 
     override fun onResume() {

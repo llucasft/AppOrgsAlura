@@ -10,10 +10,12 @@ import com.example.apporgsalura.R
 import com.example.apporgsalura.databinding.ActivityListaProdutosBinding
 import com.example.apporgsalura.databinding.ItemListaBinding
 import com.example.apporgsalura.model.Produto
+import java.text.NumberFormat
+import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context,
-    produtos : List<Produto>
+    produtos: List<Produto>
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
 
     private val produtos = produtos.toMutableList()
@@ -27,14 +29,19 @@ class ListaProdutosAdapter(
         fun vincula(produto: Produto) {
             nome.text = produto.nome
             descricao.text = produto.descricao
-            valor.text = produto.valor.toPlainString()
+            val formatador: NumberFormat =
+                NumberFormat.getCurrencyInstance(Locale("pt", "br"))
+            val valorEmMoeda = formatador.format(produto.valor)
+            valor.text = valorEmMoeda
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemListaBinding.inflate(LayoutInflater.from(context),
-        parent,
-        false)
+        val binding = ItemListaBinding.inflate(
+            LayoutInflater.from(context),
+            parent,
+            false
+        )
         return ViewHolder(binding)
     }
 
