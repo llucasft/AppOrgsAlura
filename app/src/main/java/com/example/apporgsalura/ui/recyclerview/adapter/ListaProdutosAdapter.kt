@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.apporgsalura.R
 import com.example.apporgsalura.databinding.ActivityListaProdutosBinding
 import com.example.apporgsalura.databinding.ItemListaBinding
@@ -20,7 +21,7 @@ class ListaProdutosAdapter(
 
     private val produtos = produtos.toMutableList()
 
-    class ViewHolder(binding: ItemListaBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemListaBinding) : RecyclerView.ViewHolder(binding.root) {
 
         private val nome = binding.tvNome
         private val descricao = binding.tvDescricao
@@ -33,6 +34,7 @@ class ListaProdutosAdapter(
                 NumberFormat.getCurrencyInstance(Locale("pt", "br"))
             val valorEmMoeda = formatador.format(produto.valor)
             valor.text = valorEmMoeda
+            binding.imageView.load(produto.imagem)
         }
     }
 

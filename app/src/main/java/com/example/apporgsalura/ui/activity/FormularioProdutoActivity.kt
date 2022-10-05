@@ -2,18 +2,22 @@ package com.example.apporgsalura.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import coil.load
 import com.example.apporgsalura.R
 import com.example.apporgsalura.dao.ProdutoDao
 import com.example.apporgsalura.databinding.ActivityFormularioProdutoBinding
+import com.example.apporgsalura.databinding.FormularioImagemBinding
 import com.example.apporgsalura.model.Produto
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityFormularioProdutoBinding.inflate(layoutInflater) }
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +26,20 @@ class FormularioProdutoActivity : AppCompatActivity() {
         configuraBotaoSalvar()
 
         binding.imagemFormulario.setOnClickListener{
+            val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
+            bindingFormularioImagem.formularioDialogBotaoCarregar.setOnClickListener {
+                val url = bindingFormularioImagem.formularioDialogImagemEtURL.text.toString()
+                bindingFormularioImagem.formularioDialogImagem.load(url)
+            }
+
             AlertDialog.Builder(this)
                 .setMessage("mensagem teste")
                 .setTitle("titulo teste")
-                .setView(R.layout.formulario_imagem)
-                .setPositiveButton("Confirmar"){ _, _ ->}
+                .setView(bindingFormularioImagem.root)
+                .setPositiveButton("Confirmar"){ _, _ ->
+                    url = bindingFormularioImagem.formularioDialogImagemEtURL.text.toString()
+                    bindingFormularioImagem.formularioDialogImagem.load(url)
+                }
                 .setNegativeButton("Cancelar"){ _, _ ->}
                 .show()
         }
@@ -58,7 +71,8 @@ class FormularioProdutoActivity : AppCompatActivity() {
         return Produto(
             nome = nome,
             descricao = descricao,
-            valor = valor
+            valor = valor,
+            imagem = url
         )
     }
 }
