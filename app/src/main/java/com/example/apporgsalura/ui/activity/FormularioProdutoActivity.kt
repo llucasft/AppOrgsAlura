@@ -11,7 +11,9 @@ import com.example.apporgsalura.R
 import com.example.apporgsalura.dao.ProdutoDao
 import com.example.apporgsalura.databinding.ActivityFormularioProdutoBinding
 import com.example.apporgsalura.databinding.FormularioImagemBinding
+import com.example.apporgsalura.extensions.tentaCarregarImagem
 import com.example.apporgsalura.model.Produto
+import com.example.apporgsalura.ui.dialog.FormularioImagemDialog
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity() {
@@ -22,26 +24,12 @@ class FormularioProdutoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         configuraBotaoSalvar()
-
-        binding.imagemFormulario.setOnClickListener{
-            val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
-            bindingFormularioImagem.formularioDialogBotaoCarregar.setOnClickListener {
-                val url = bindingFormularioImagem.formularioDialogImagemEtURL.text.toString()
-                bindingFormularioImagem.formularioDialogImagem.load(url)
+        binding.imagemFormulario.setOnClickListener {
+            FormularioImagemDialog(this).mostraDialog{ imagem ->
+                url = imagem
+                binding.imagemFormulario.tentaCarregarImagem(url)
             }
-
-            AlertDialog.Builder(this)
-                .setMessage("mensagem teste")
-                .setTitle("titulo teste")
-                .setView(bindingFormularioImagem.root)
-                .setPositiveButton("Confirmar"){ _, _ ->
-                    url = bindingFormularioImagem.formularioDialogImagemEtURL.text.toString()
-                    bindingFormularioImagem.formularioDialogImagem.load(url)
-                }
-                .setNegativeButton("Cancelar"){ _, _ ->}
-                .show()
         }
     }
 

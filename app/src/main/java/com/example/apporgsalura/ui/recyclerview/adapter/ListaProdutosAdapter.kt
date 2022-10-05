@@ -10,6 +10,7 @@ import coil.load
 import com.example.apporgsalura.R
 import com.example.apporgsalura.databinding.ActivityListaProdutosBinding
 import com.example.apporgsalura.databinding.ItemListaBinding
+import com.example.apporgsalura.extensions.tentaCarregarImagem
 import com.example.apporgsalura.model.Produto
 import java.text.NumberFormat
 import java.util.*
@@ -34,7 +35,16 @@ class ListaProdutosAdapter(
                 NumberFormat.getCurrencyInstance(Locale("pt", "br"))
             val valorEmMoeda = formatador.format(produto.valor)
             valor.text = valorEmMoeda
-            binding.imageView.load(produto.imagem)
+
+            val visibilidade = if (produto.imagem != null){
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+            binding.imageView.visibility = visibilidade
+
+            binding.imageView.tentaCarregarImagem(produto.imagem)
         }
     }
 
